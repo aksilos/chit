@@ -20,6 +20,11 @@ public class Ctr {
 	ImageIcon select_black =new ImageIcon(new ImageIcon("src/default_black_select.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
 	ImageIcon select_white =new ImageIcon(new ImageIcon("src/default_white_select.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
 	
+	ImageIcon black_yiss = new ImageIcon("src/default_black_yiss.png");
+	ImageIcon white_yiss = new ImageIcon("src/default_white_yiss.png");
+	ImageIcon black_select_yiss = new ImageIcon("src/default_black_select_yiss.png");
+	ImageIcon white_select_yiss = new ImageIcon("src/default_white_select_yiss.png");
+	
 	private boolean selected = false;
 	
 	Ctr() {
@@ -37,19 +42,24 @@ public class Ctr {
 		
 		if (selectedButton == activeButton){
 			unselect();
+			System.out.println("1");
 		}
 		else if (selected && !activeButton.taken){
-			selectAndMove(activeButton, selectedButton ,zoneGameButtons);	
+			selectAndMove(activeButton, selectedButton ,zoneGameButtons);
+			System.out.println("2");
 		}
 		else if (selected && activeButton.taken){
+			System.out.println("3");
 			unselect();	
 		}
 		
 		else if (!activeButton.taken){
 			ech(activeButton,zoneGameButtons);
+			System.out.println("4");
 		}
 		else{
 			selectedButton = drawSelect();
+			System.out.println("5");
 			
 			
 		}
@@ -61,18 +71,27 @@ public class Ctr {
 	 * @param field
 	 */
 	public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] field){
-		
-		if(player1.isCurrentPlayer){
+		System.out.println("b: "+(player1.isCurrentPlayer && selectedButton.isyiss));
+		if(player1.isCurrentPlayer || (player2.isCurrentPlayer && selectedButton.isyiss) ){
+			
 			if ( ((activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
 				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+1 )) 
-				&& !(activeButton.y>=3 &&  activeButton.x>=3) ){
+				&& !(activeButton.y>=3 && activeButton.x>=3 && !selectedButton.isyiss) ){
 				selectedButton.taken = false;
-//				selectedButton.player = null;
 				activeButton.player = player1;
 				activeButton.taken = true;
-				drawNormalMove(selectedButton);
+				if ((activeButton.x == 2 && activeButton.y == 4) 
+					|| (activeButton.x == 4 && activeButton.y == 2)
+					|| !player1.isCurrentPlayer){
+					activeButton.isyiss = true;
+					activeButton.player = player2;
+				}
+				
+				drawNormalMove(selectedButton,false);
+				
 				changePlayer();
 				selected = false;
+				this.selectedButton = new Stone();
 			}
 			else if ((activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y
 					  && field[activeButton.x-1][activeButton.y].player == player2
@@ -81,10 +100,12 @@ public class Ctr {
 						&& field[activeButton.x][activeButton.y-1].player == player2
 						&& !field[activeButton.x][activeButton.y-2].taken)){
 				selectedButton.taken = false;
-//				selectedButton.player = null;
 				activeButton.player = player1;
 				activeButton.taken = true;
-//				if (field[activeButton.x][activeButton.y-1].player == player2){
+				if ((activeButton.x == 2 && activeButton.y == 4)  || (activeButton.x == 4 && activeButton.y == 2)){
+					activeButton.isyiss = true;
+					activeButton.player = player2;
+				}
 				if (selectedButton.x == activeButton.x){
 					field[activeButton.x][activeButton.y-1].taken = false;
 					drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
@@ -95,20 +116,29 @@ public class Ctr {
 				}
 				changePlayer();
 				selected = false;
-				
+				this.selectedButton = new Stone();
 			}
 		}
-		else if (player2.isCurrentPlayer){
+		if (player2.isCurrentPlayer || (player1.isCurrentPlayer && selectedButton.isyiss) ){
 			if ( ((activeButton.x == selectedButton.x-1 && activeButton.y == selectedButton.y) 
 				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-1)) 
-				&& !(activeButton.y<=1 && activeButton.x<=1) ){
+				&& !(activeButton.y<=1 && activeButton.x<=1 && !selectedButton.isyiss)){
+				
 					selectedButton.taken = false;
-//					selectedButton.player = null;
 					activeButton.player = player2;
 					activeButton.taken = true;
-					drawNormalMove(selectedButton);
+					if ((activeButton.x == 2 && activeButton.y == 0) 
+							|| (activeButton.x == 0 && activeButton.y == 2)
+							|| !player2.isCurrentPlayer ){
+							activeButton.isyiss = true;
+							activeButton.player = player1;
+						}
+					
+					drawNormalMove(selectedButton,false);
+						
 					changePlayer();
 					selected = false;
+					this.selectedButton = new Stone();
 				}
 			else if ((activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y
 					  && field[activeButton.x+1][activeButton.y].player == player1
@@ -118,10 +148,12 @@ public class Ctr {
 						&& !field[activeButton.x][activeButton.y+2].taken)){
 			
 				selectedButton.taken = false;
-//				selectedButton.player = null;
 				activeButton.player = player2;
 				activeButton.taken = true;
-//				if (field[activeButton.x][activeButton.y+1].player == player1){
+				if ((activeButton.x == 2 && activeButton.y == 0)  || (activeButton.x == 0 && activeButton.y == 2)){
+					activeButton.isyiss = true;
+					activeButton.player = player2;
+				}
 				if (selectedButton.x == activeButton.x){
 					field[activeButton.x][activeButton.y+1].taken = false;
 					drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
@@ -132,9 +164,10 @@ public class Ctr {
 				}
 				changePlayer();
 				selected = false;
-				
+				this.selectedButton = new Stone();
 			}
-		}		
+		}	
+		
 	}
 	
 	
@@ -168,15 +201,20 @@ public class Ctr {
 	/**
 	 * when a piece moves without taking an enemy piece
 	 */
-	public void drawNormalMove(Stone selectedButton) {
+	public void drawNormalMove(Stone selectedButton, boolean isYiss) {
+		ImageIcon piece_black = black;
+		ImageIcon piece_white = white;
+		if (activeButton.isyiss){
+			piece_black = black_yiss;
+			piece_white = white_yiss;
+		}
+
 		if (player1.isCurrentPlayer) {
-			activeButton.setIcon(black);
+			activeButton.setIcon(piece_black);
 			selectedButton.setIcon(default_bg);
-			
-			
 		}
 		else if (player2.isCurrentPlayer) {
-			activeButton.setIcon(white);
+			activeButton.setIcon(piece_white);
 			selectedButton.setIcon(default_bg);
 		}
 	}
@@ -185,13 +223,19 @@ public class Ctr {
 	 * piece moves and takes an enemy piece
 	 */
 	public void drawTakeMove(Stone selectedButton, Stone takenPiece) {
+		ImageIcon piece_black = black;
+		ImageIcon piece_white = white;
+		if (activeButton.isyiss){
+			piece_black = black_yiss;
+			piece_white = white_yiss;
+		}
 		if (player1.isCurrentPlayer) {
-			activeButton.setIcon(black);
+			activeButton.setIcon(piece_black);
 			takenPiece.setIcon(default_bg);
 			selectedButton.setIcon(default_bg);
 		}
 		else if (player2.isCurrentPlayer) {
-			activeButton.setIcon(white);
+			activeButton.setIcon(piece_white);
 			takenPiece.setIcon(default_bg);
 			selectedButton.setIcon(default_bg);
 		}
@@ -201,13 +245,20 @@ public class Ctr {
 	 * select display to show selected piece
 	 */
 	public Stone drawSelect(){
+		ImageIcon piece_black = select_black;
+		ImageIcon piece_white = select_white;
+		if (activeButton.isyiss){
+			piece_black = black_select_yiss;
+			piece_white = white_select_yiss;
+		}
+		
 		if (player1.isCurrentPlayer && activeButton.player == player1) {
-			activeButton.setIcon(select_black);
+			activeButton.setIcon(piece_black);
 			selectedButton = activeButton;
 			selected = true;
 		}
 		else if (player2.isCurrentPlayer && activeButton.player == player2) {
-			activeButton.setIcon(select_white);
+			activeButton.setIcon(piece_white);
 			selectedButton = activeButton;
 			selected = true;
 		}
@@ -218,13 +269,20 @@ public class Ctr {
 	 * unselect the selected button
 	 */
 	public void unselect(){
+		ImageIcon piece_black = black;
+		ImageIcon piece_white = white;
+		if (selectedButton.isyiss){
+			piece_black = black_yiss;
+			piece_white = white_yiss;
+		}
+		
 		if (player1.isCurrentPlayer) {
-			selectedButton.setIcon(black);
+			selectedButton.setIcon(piece_black);
 			selected = false;
 			selectedButton = null;
 		}
 		else if (player2.isCurrentPlayer) {
-			selectedButton.setIcon(white);
+			selectedButton.setIcon(piece_white);
 			selected = false;
 			selectedButton = null;
 		}

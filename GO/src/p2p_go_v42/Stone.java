@@ -25,13 +25,19 @@ public class Stone extends JButton implements ActionListener{
 	private static final long serialVersionUID = 1L;
 		int x;
 		int y;
-		int liberties; // number of stone's liberties : 0,1,2 or 4 
+		int liberties; 
+		
+		boolean isyiss = false;
 		boolean taken;
 		boolean isCorner = false;  
 		boolean isEdge = false;
 	
 		Player player;  
 		Stone[] neighbors; 
+		
+		Stone(){
+			
+		}
 		
 		Stone (int x, int y, ImageIcon img){
 			super(img);
