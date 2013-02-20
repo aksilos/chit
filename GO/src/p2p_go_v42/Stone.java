@@ -36,7 +36,7 @@ public class Stone extends JButton implements ActionListener{
 		Stone[] neighbors; 
 		
 		Stone(){
-			
+			isyiss = false;
 		}
 		
 		Stone (int x, int y, ImageIcon img){
