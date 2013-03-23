@@ -40,12 +40,16 @@ public class Ctr {
 		this.zoneGameButtons = zoneGameButtons;
 		
 		
-		if (selectedButton == activeButton){
+		if (selected && selectedButton == activeButton){
 			unselect();
 			System.out.println("1");
 		}
 		else if (selected && !activeButton.taken){
-			selectAndMove(activeButton, selectedButton ,zoneGameButtons);
+			if (selectedButton.isyiss){
+				selectAndMoveYiss(activeButton, selectedButton ,zoneGameButtons);
+			}
+			else
+				selectAndMove(activeButton, selectedButton ,zoneGameButtons);
 			System.out.println("2");
 		}
 		else if (selected && activeButton.taken){
@@ -65,154 +69,148 @@ public class Ctr {
 		}
 	}	
 	
+public void selectAndMoveYiss(Stone activeButton,Stone selectedButton, Stone[][] field){
+		
+		
+		if ( (activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
+			|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+1 ) 
+			|| (activeButton.x == selectedButton.x-1 && activeButton.y == selectedButton.y )
+			|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-1 ) ){
+			selectedButton.taken = false;
+			selectedButton.isyiss = false;
+			selectedButton.player = null;
+			
+			if(player1.isCurrentPlayer){
+				activeButton.player = player1;
+			}else{
+				activeButton.player = player2;
+			}
+			activeButton.taken = true;
+			activeButton.isyiss = true;
+
+			drawNormalMove(selectedButton, false);
+			changePlayer();
+			selected = false;
+		}
+		//TODO muss jeder schlag action allein gemacht werden damit dass man das geschlagene field erkennen kann
+		else if ( (activeButton.x == selectedButton.x+2 && activeButton.y == selectedButton.y && field[selectedButton.x+1][selectedButton.y].player != null && field[selectedButton.x+1][selectedButton.y].player != selectedButton.player)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+2 && field[selectedButton.x][selectedButton.y+1].player != null && field[selectedButton.x][selectedButton.y+1].player != selectedButton.player) 
+				|| (activeButton.x == selectedButton.x-2 && activeButton.y == selectedButton.y && field[selectedButton.x-1][selectedButton.y].player != null && field[selectedButton.x-1][selectedButton.y].player != selectedButton.player)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-2 && field[selectedButton.x][selectedButton.y-1].player != null && field[selectedButton.x][selectedButton.y-1].player != selectedButton.player) ){
+				selectedButton.taken = false;
+				selectedButton.isyiss = false;
+				selectedButton.player = null;
+				
+				if(player1.isCurrentPlayer){
+					activeButton.player = player1;
+				}else{
+					activeButton.player = player2;
+				}
+				activeButton.taken = true;
+				activeButton.isyiss = true;
+
+				drawNormalMove(selectedButton, false);
+				changePlayer();
+				selected = false;
+			}
+}
+	
 	/**
 	 * actually move the selected piece
 	 * @param activeButton
 	 * @param field
 	 */
-	public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] field){
+public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] field){
 		
-		if(player1.isCurrentPlayer || (player2.isCurrentPlayer && selectedButton.isyiss) ){
-			
-			if (selectedButton.isyiss){
-				selectedButton.taken = false;
-				if (!player1.isCurrentPlayer) activeButton.player = player2;
-				else activeButton.player = player1;
-				activeButton.isyiss = true;
-				activeButton.taken = true;
-				
-				
-				if(activeButton.x == selectedButton.x+2){
-					field[activeButton.x-1][activeButton.y].taken = false;
-					field[activeButton.x-1][activeButton.y].isyiss = false;
-					drawTakeMove(selectedButton,field[activeButton.x-1][activeButton.y]);
-				}
-				else if(activeButton.x == selectedButton.x-2){
-					field[activeButton.x+1][activeButton.y].taken = false;
-					field[activeButton.x+1][activeButton.y].isyiss = false;
-					drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
-				}
-				else if(activeButton.y == selectedButton.y+2){
-					field[activeButton.x][activeButton.y-1].taken = false;
-					field[activeButton.x][activeButton.y-1].isyiss = false;
-					drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
-				}
-				else if (activeButton.y == selectedButton.y-2){
-					field[activeButton.x][activeButton.y+1].taken = false;
-					field[activeButton.x][activeButton.y+1].isyiss = false;
-					drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
-				}
-				changePlayer();
-				selected = false;
-				selectedButton.isyiss = false;
-				this.selectedButton = new Stone();
-				return;
-				
-			}
-
+		if(player1.isCurrentPlayer){
 			if ( ((activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
 				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+1 )) 
-				&& !(activeButton.y>=3 && activeButton.x>=3 && !selectedButton.isyiss) ){
-			
+				&& !(activeButton.y>=3 &&  activeButton.x>=3) ){
 				selectedButton.taken = false;
-				if (!player1.isCurrentPlayer) activeButton.player = player2;
-				else activeButton.player = player1;
+				selectedButton.player = null;
+				activeButton.player = player1;
 				activeButton.taken = true;
-				if (((activeButton.x == 2 && activeButton.y == 4) 
-					|| (activeButton.x == 4 && activeButton.y == 2))
-					|| selectedButton.isyiss){
-					activeButton.isyiss = true;
-				}
 				
-				
-				drawNormalMove(selectedButton,false);
-				
+				drawNormalMove(selectedButton, false);
 				changePlayer();
 				selected = false;
-				selectedButton.isyiss = false;
-				
 			}
-			else if ((activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y
+			else if (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y
 					  && field[activeButton.x-1][activeButton.y].player == player2
-					  && !field[activeButton.x-2][activeButton.y].taken)
-					|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3
-						&& field[activeButton.x][activeButton.y-1].player == player2
-						&& !field[activeButton.x][activeButton.y-2].taken)){
+					  && !field[activeButton.x-2][activeButton.y].taken){
 				selectedButton.taken = false;
-				if (!player1.isCurrentPlayer) activeButton.player = player2;
-				else activeButton.player = player1;
+				selectedButton.player = null;
+				activeButton.player = player1;
 				activeButton.taken = true;
-				if ((activeButton.x == 2 && activeButton.y == 4)  || (activeButton.x == 4 && activeButton.y == 2) || selectedButton.isyiss){
-					activeButton.isyiss = true;
-				}
-				if (selectedButton.x == activeButton.x){
-					field[activeButton.x][activeButton.y-1].taken = false;
-					field[activeButton.x][activeButton.y-1].isyiss = false;
-					drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
-				}
-				else{
-					drawTakeMove(selectedButton,field[activeButton.x-1][activeButton.y]);
-					field[activeButton.x-1][activeButton.y].taken = false;
-					field[activeButton.x-1][activeButton.y].isyiss = false;
-				}
+				field[activeButton.x-1][activeButton.y].taken = false;
+				field[activeButton.x-1][activeButton.y].isyiss = false;
+				field[activeButton.x-1][activeButton.y].player = null;
+				drawTakeMove(selectedButton,field[activeButton.x-1][activeButton.y]);
 				changePlayer();
 				selected = false;
-				selectedButton.isyiss = false;
 			}
+			else if(activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3
+						&& field[activeButton.x][activeButton.y-1].player == player2
+						&& !field[activeButton.x][activeButton.y-2].taken){
+				selectedButton.taken = false;
+				selectedButton.player = null;
+				activeButton.player = player1;
+				activeButton.taken = true;
+				field[activeButton.x][activeButton.y-1].taken = false;
+				field[activeButton.x][activeButton.y-1].isyiss = false;
+				field[activeButton.x][activeButton.y-1].player = null;
+				drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
+				changePlayer();
+				selected = false;
+			}
+				
 		}
-		if (player2.isCurrentPlayer || (player1.isCurrentPlayer && selectedButton.isyiss) ){
+		else if (player2.isCurrentPlayer){
 			if ( ((activeButton.x == selectedButton.x-1 && activeButton.y == selectedButton.y) 
 				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-1)) 
-				&& !(activeButton.y<=1 && activeButton.x<=1 && !selectedButton.isyiss)){
-				
+				&& !(activeButton.y<=1 && activeButton.x<=1) ){
 					selectedButton.taken = false;
-					if (!player2.isCurrentPlayer) activeButton.player = player1;
-					else activeButton.player = player2;
+					selectedButton.player = null;
+					activeButton.player = player2;
 					activeButton.taken = true;
-					if ((activeButton.x == 2 && activeButton.y == 0) 
-							|| (activeButton.x == 0 && activeButton.y == 2)
-							|| selectedButton.isyiss){
-							activeButton.isyiss = true;
-						}
-					
 					drawNormalMove(selectedButton,false);
-						
 					changePlayer();
 					selected = false;
-					selectedButton.isyiss = false;				}
-			else if ((activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y
+				}
+			else if (activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y
 					  && field[activeButton.x+1][activeButton.y].player == player1
-					  && !field[activeButton.x+2][activeButton.y].taken)
-					|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3
-						&& field[activeButton.x][activeButton.y+1].player == player1
-						&& !field[activeButton.x][activeButton.y+2].taken)){
+					  && !field[activeButton.x+2][activeButton.y].taken){
 			
 				selectedButton.taken = false;
-				if (!player2.isCurrentPlayer) activeButton.player = player1;
-				else activeButton.player = player2;
+				selectedButton.player = null;
+				activeButton.player = player2;
 				activeButton.taken = true;
-				if ((activeButton.x == 2 && activeButton.y == 0)  || (activeButton.x == 0 && activeButton.y == 2)){
-					activeButton.isyiss = true;
-					
-				}
-				if (selectedButton.x == activeButton.x){
-					field[activeButton.x][activeButton.y+1].taken = false;
-					field[activeButton.x][activeButton.y+1].isyiss = false;
-					drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
-				}
-				else{
-					drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
-					field[activeButton.x+1][activeButton.y].taken = false;
-					field[activeButton.x+1][activeButton.y].isyiss = false;
-				}
+				field[activeButton.x+1][activeButton.y].taken = false;
+				field[activeButton.x+1][activeButton.y].isyiss = false;
+				field[activeButton.x+1][activeButton.y].player = null;
+				drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
 				changePlayer();
 				selected = false;
-				selectedButton.isyiss = false;
 			}
-		}	
-		
+			else if (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3
+						&& field[activeButton.x][activeButton.y+1].player == player1
+						&& !field[activeButton.x][activeButton.y+2].taken){
+			
+				selectedButton.taken = false;
+				selectedButton.player = null;
+				activeButton.player = player2;
+				activeButton.taken = true;
+				field[activeButton.x][activeButton.y+1].taken = false;
+				field[activeButton.x][activeButton.y+1].isyiss = false;
+				field[activeButton.x][activeButton.y+1].player = null;
+				drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
+				changePlayer();
+				selected = false;
+			}
+				
+		}		
 	}
-	
+
 	
 	/**
 	 * ech and refresh the display
@@ -253,10 +251,18 @@ public class Ctr {
 		}
 
 		if (player1.isCurrentPlayer) {
+			if ((activeButton.x == 4 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 4)){
+				piece_black = black_yiss;
+				activeButton.isyiss = true;
+			}
 			activeButton.setIcon(piece_black);
 			selectedButton.setIcon(default_bg);
 		}
 		else if (player2.isCurrentPlayer) {
+			if ((activeButton.x == 2 && activeButton.y == 0) || (activeButton.x == 0 && activeButton.y == 2)){
+				piece_white = white_yiss;
+				activeButton.isyiss = true;
+			}
 			activeButton.setIcon(piece_white);
 			selectedButton.setIcon(default_bg);
 		}
@@ -273,11 +279,19 @@ public class Ctr {
 			piece_white = white_yiss;
 		}
 		if (player1.isCurrentPlayer) {
+			if ((activeButton.x == 4 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 4)){
+				piece_black = black_yiss;
+				activeButton.isyiss = true;
+			}
 			activeButton.setIcon(piece_black);
 			takenPiece.setIcon(default_bg);
 			selectedButton.setIcon(default_bg);
 		}
 		else if (player2.isCurrentPlayer) {
+			if ((activeButton.x == 0 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 2)){
+				piece_white = white_yiss;
+				activeButton.isyiss = true;
+			}
 			activeButton.setIcon(piece_white);
 			takenPiece.setIcon(default_bg);
 			selectedButton.setIcon(default_bg);
