@@ -92,7 +92,6 @@ public void selectAndMoveYiss(Stone activeButton,Stone selectedButton, Stone[][]
 			changePlayer();
 			selected = false;
 		}
-		//TODO muss jeder schlag action allein gemacht werden damit dass man das geschlagene field erkennen kann
 		else if ( (activeButton.x == selectedButton.x+2 && activeButton.y == selectedButton.y && field[selectedButton.x+1][selectedButton.y].player != null && field[selectedButton.x+1][selectedButton.y].player != selectedButton.player)
 				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+2 && field[selectedButton.x][selectedButton.y+1].player != null && field[selectedButton.x][selectedButton.y+1].player != selectedButton.player) 
 				|| (activeButton.x == selectedButton.x-2 && activeButton.y == selectedButton.y && field[selectedButton.x-1][selectedButton.y].player != null && field[selectedButton.x-1][selectedButton.y].player != selectedButton.player)
@@ -108,8 +107,80 @@ public void selectAndMoveYiss(Stone activeButton,Stone selectedButton, Stone[][]
 				}
 				activeButton.taken = true;
 				activeButton.isyiss = true;
-
-				drawNormalMove(selectedButton, false);
+				if (activeButton.x == selectedButton.x){
+					if (activeButton.y > selectedButton.y){
+						field[activeButton.x][activeButton.y-1].taken = false;
+						field[activeButton.x][activeButton.y-1].player = null;
+						field[activeButton.x][activeButton.y-1].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
+					}
+					else{
+						field[activeButton.x][activeButton.y+1].taken = false;
+						field[activeButton.x][activeButton.y+1].player = null;
+						field[activeButton.x][activeButton.y+1].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
+					}
+				}
+				else if (activeButton.y == selectedButton.y){
+					if (activeButton.x > selectedButton.x){
+						field[activeButton.x-1][activeButton.y].taken = false;
+						field[activeButton.x-1][activeButton.y].player = null;
+						field[activeButton.x-1][activeButton.y].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x-1][activeButton.y]);
+					}
+					else{
+						field[activeButton.x+1][activeButton.y].taken = false;
+						field[activeButton.x+1][activeButton.y].player = null;
+						field[activeButton.x+1][activeButton.y].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
+					}
+				}
+				changePlayer();
+				selected = false;
+			}
+		else if ( (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y && field[activeButton.x-1][activeButton.y].player != null && field[activeButton.x-1][activeButton.y].player != selectedButton.player && !field[activeButton.x-2][activeButton.y].taken)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3 && field[activeButton.x][activeButton.y-1].player != null && field[activeButton.x][activeButton.y-1].player != selectedButton.player && !field[activeButton.x][activeButton.y-2].taken) 
+				|| (activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y && field[activeButton.x+1][activeButton.y].player != null && field[activeButton.x+1][activeButton.y].player != selectedButton.player && !field[activeButton.x+2][activeButton.y].taken)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3 && field[activeButton.x][activeButton.y+1].player != null && field[activeButton.x][activeButton.y+1].player != selectedButton.player && !field[activeButton.x][activeButton.y+2].taken) ){
+				selectedButton.taken = false;
+				selectedButton.isyiss = false;
+				selectedButton.player = null;
+				
+				if(player1.isCurrentPlayer){
+					activeButton.player = player1;
+				}else{
+					activeButton.player = player2;
+				}
+				activeButton.taken = true;
+				activeButton.isyiss = true;
+				if (activeButton.x == selectedButton.x){
+					if (activeButton.y > selectedButton.y){
+						field[activeButton.x][activeButton.y-1].taken = false;
+						field[activeButton.x][activeButton.y-1].player = null;
+						field[activeButton.x][activeButton.y-1].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
+					}
+					else{
+						field[activeButton.x][activeButton.y+1].taken = false;
+						field[activeButton.x][activeButton.y+1].player = null;
+						field[activeButton.x][activeButton.y+1].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
+					}
+				}
+				else if (activeButton.y == selectedButton.y){
+					if (activeButton.x > selectedButton.x){
+						field[activeButton.x-1][activeButton.y].taken = false;
+						field[activeButton.x-1][activeButton.y].player = null;
+						field[activeButton.x-1][activeButton.y].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x-1][activeButton.y]);
+					}
+					else{
+						field[activeButton.x+1][activeButton.y].taken = false;
+						field[activeButton.x+1][activeButton.y].player = null;
+						field[activeButton.x+1][activeButton.y].isyiss = false;
+						drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
+					}
+				}
 				changePlayer();
 				selected = false;
 			}
