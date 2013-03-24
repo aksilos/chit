@@ -38,7 +38,7 @@ public class GUI {
 	}
 	
 	
-	Control control = new Control();
+//	Control control = new Control();
 	Ctr ctr = new Ctr();
 	JFrame frame = new JFrame("GO Game");
 	JPanel playerPanel = new JPanel();
@@ -49,13 +49,15 @@ public class GUI {
 	JPanel buttomPanel = new JPanel();
 	
 	
-	JLabel scoreLabel = new JLabel(" Score");
-	JLabel territoryLabel = new JLabel(" Territory");
-	JLabel prisonersLabel = new JLabel(" Prisoners");
-	static JLabel territoryBScore = new JLabel("0", JLabel.CENTER);
-	static JLabel prisonersBScore = new JLabel("0", JLabel.CENTER);
-	static JLabel territoryWScore = new JLabel("0", JLabel.CENTER);
-	static JLabel prisonersWScore = new JLabel("0", JLabel.CENTER);
+//	JLabel scoreLabel = new JLabel(" Score");
+//	JLabel territoryLabel = new JLabel(" Territory");
+//	JLabel prisonersLabel = new JLabel(" Prisoners");
+//	static JLabel territoryBScore = new JLabel("0", JLabel.CENTER);
+//	static JLabel prisonersBScore = new JLabel("0", JLabel.CENTER);
+//	static JLabel territoryWScore = new JLabel("0", JLabel.CENTER);
+//	static JLabel prisonersWScore = new JLabel("0", JLabel.CENTER);
+	
+	
 	JLabel activePlayer = new JLabel("Who is on : ");
 	static JLabel activePlayerIcon = new JLabel(new ImageIcon("src/black_logo.png"));
 	JLabel logoLabel = new JLabel(new ImageIcon("src/logo.png"));
@@ -63,6 +65,8 @@ public class GUI {
 	static JLabel player1Score = new JLabel("0", JLabel.CENTER);
 	JLabel player2Label = new JLabel(new ImageIcon("src/white_logo.png"));
 	static JLabel player2Score = new JLabel("0", JLabel.CENTER);
+	static JButton foqButton = new JButton("ifoq");
+	static JButton jbadButton = new JButton("ijbad");
 	
 	JButton passButton = new JButton(new ImageIcon("src/pass.png"));
 	JButton undoButton = new JButton(new ImageIcon("src/undo.png"));
@@ -75,21 +79,24 @@ public class GUI {
 	GUI(){
 		Border r;
 		r= BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		playerPanel.setLayout(new GridLayout(4, 3));
+		
+		playerPanel.setLayout(new GridLayout(4, 1));
 		playerPanel.setPreferredSize(new Dimension(200, 200));
 		playerPanel.setBorder(r);
-		playerPanel.add(new JLabel(""));
-		playerPanel.add(player1Label);
-		playerPanel.add(player2Label);
-		playerPanel.add(territoryLabel);
-		playerPanel.add(territoryBScore);
-		playerPanel.add(territoryWScore);
-		playerPanel.add(prisonersLabel);
-		playerPanel.add(prisonersWScore);
-		playerPanel.add(prisonersBScore);
-		playerPanel.add(scoreLabel);
-		playerPanel.add(player1Score);
-		playerPanel.add(player2Score);
+//		playerPanel.add(new JLabel("dd"));
+		playerPanel.add(foqButton);
+		playerPanel.add(jbadButton);
+//		playerPanel.add(player1Label);
+//		playerPanel.add(player2Label);
+//		playerPanel.add(territoryLabel);
+//		playerPanel.add(territoryBScore);
+//		playerPanel.add(territoryWScore);
+//		playerPanel.add(prisonersLabel);
+//		playerPanel.add(prisonersWScore);
+//		playerPanel.add(prisonersBScore);
+//		playerPanel.add(scoreLabel);
+//		playerPanel.add(player1Score);
+//		playerPanel.add(player2Score);
 
 		gameZonePanel.setLayout(new GridLayout(5,5));
 		bildZoneGame();		
@@ -101,37 +108,58 @@ public class GUI {
 		
 		logoPanel.add(logoLabel);
 		
+		foqButton.setEnabled(false);
+		foqButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ctr.setifoq();
+			}
+		});
+		jbadButton.setEnabled(false);
+		jbadButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ctr.setijbad();
+			}
+		});
+
 		buttomPanel.setBorder(r);
 		buttomPanel.add(activePlayer);
 		buttomPanel.add(activePlayerIcon);
 		
-		passButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				control.pass();
-			}
-		});
-	
-		undoButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				control.undo();
-			}
-		});
 		
-		resetButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				territoryBScore.setText("0");
-				territoryWScore.setText("0");
-				prisonersBScore.setText("0");
-				prisonersWScore.setText("0");
-				player1Score.setText("0");
-				player2Score.setText("0");
-				new GUI();
-			}
-		});
+		
+//		passButton.addActionListener(new ActionListener(){
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				// TODO Auto-generated method stub
+//				control.pass();
+//			}
+//		});
+//	
+//		undoButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				control.undo();
+//			}
+//		});
+		
+//		resetButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				frame.dispose();
+//				territoryBScore.setText("0");
+//				territoryWScore.setText("0");
+//				prisonersBScore.setText("0");
+//				prisonersWScore.setText("0");
+//				player1Score.setText("0");
+//				player2Score.setText("0");
+//				new GUI();
+//			}
+//		});
 		
 		// add component to topPanel
 		topPanel.setBorder(r);
@@ -181,13 +209,38 @@ public class GUI {
 	 * @param bScore
 	 * @param wScore
 	 */
-	public static void updateScore(int blackT, int prisonersB, int whiteT, int prisonersW, int bScore, int wScore) {
-		territoryBScore.setText(Integer.toString(whiteT));
-		territoryWScore.setText(Integer.toString(blackT));
-		prisonersBScore.setText(Integer.toString(prisonersB));
-		prisonersWScore.setText(Integer.toString(prisonersW));
-		player1Score.setText(Integer.toString(bScore));
-		player2Score.setText(Integer.toString(wScore));
+//	public static void updateScore(int blackT, int prisonersB, int whiteT, int prisonersW, int bScore, int wScore) {
+//		territoryBScore.setText(Integer.toString(whiteT));
+//		territoryWScore.setText(Integer.toString(blackT));
+//		prisonersBScore.setText(Integer.toString(prisonersB));
+//		prisonersWScore.setText(Integer.toString(prisonersW));
+//		player1Score.setText(Integer.toString(bScore));
+//		player2Score.setText(Integer.toString(wScore));
+//	}
+	
+	/**
+	 * enable ifoq and ijbad Buttons
+	 */
+	public static void enableButton(String button){
+		switch (button) {
+		case "all":
+			foqButton.setEnabled(true);
+			jbadButton.setEnabled(true);
+			break;
+		case "ijbad":
+			jbadButton.setEnabled(true);
+		case "ifoq":
+			foqButton.setEnabled(true);
+		default:
+			break;
+		}
+	}
+	/**
+	 * disble ijbad and ifoq buttons
+	 */
+	public static void disableButtons(){
+		foqButton.setEnabled(false);
+		jbadButton.setEnabled(false);
 	}
 	
 	/**

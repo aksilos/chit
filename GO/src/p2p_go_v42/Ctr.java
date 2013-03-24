@@ -39,6 +39,7 @@ public class Ctr {
 		this.activeButton = activeButton;
 		this.zoneGameButtons = zoneGameButtons;
 		
+		GUI.disableButtons();
 		
 		if (selected && selectedButton == activeButton){
 			unselect();
@@ -70,9 +71,12 @@ public class Ctr {
 	}	
 	
 public void selectAndMoveYiss(Stone activeButton,Stone selectedButton, Stone[][] field){
+	
+		if (selectedButton.ifoq){
+			System.out.println("illa ifoq");
+		}
 		
-		
-		if ( (activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
+		else if ( (activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
 			|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+1 ) 
 			|| (activeButton.x == selectedButton.x-1 && activeButton.y == selectedButton.y )
 			|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-1 ) ){
@@ -92,10 +96,10 @@ public void selectAndMoveYiss(Stone activeButton,Stone selectedButton, Stone[][]
 			changePlayer();
 			selected = false;
 		}
-		else if ( (activeButton.x == selectedButton.x+2 && activeButton.y == selectedButton.y && field[selectedButton.x+1][selectedButton.y].player != null && field[selectedButton.x+1][selectedButton.y].player != selectedButton.player)
-				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+2 && field[selectedButton.x][selectedButton.y+1].player != null && field[selectedButton.x][selectedButton.y+1].player != selectedButton.player) 
-				|| (activeButton.x == selectedButton.x-2 && activeButton.y == selectedButton.y && field[selectedButton.x-1][selectedButton.y].player != null && field[selectedButton.x-1][selectedButton.y].player != selectedButton.player)
-				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-2 && field[selectedButton.x][selectedButton.y-1].player != null && field[selectedButton.x][selectedButton.y-1].player != selectedButton.player) ){
+		else if ( (activeButton.x == selectedButton.x+2 && activeButton.y == selectedButton.y && field[selectedButton.x+1][selectedButton.y].player != null && field[selectedButton.x+1][selectedButton.y].player != selectedButton.player && !field[selectedButton.x+1][selectedButton.y].ifoq)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+2 && field[selectedButton.x][selectedButton.y+1].player != null && field[selectedButton.x][selectedButton.y+1].player != selectedButton.player && !field[selectedButton.x][selectedButton.y+1].ifoq) 
+				|| (activeButton.x == selectedButton.x-2 && activeButton.y == selectedButton.y && field[selectedButton.x-1][selectedButton.y].player != null && field[selectedButton.x-1][selectedButton.y].player != selectedButton.player && !field[selectedButton.x-1][selectedButton.y].ifoq)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-2 && field[selectedButton.x][selectedButton.y-1].player != null && field[selectedButton.x][selectedButton.y-1].player != selectedButton.player && !field[selectedButton.x][selectedButton.y-1].ifoq) ){
 				selectedButton.taken = false;
 				selectedButton.isyiss = false;
 				selectedButton.player = null;
@@ -138,10 +142,10 @@ public void selectAndMoveYiss(Stone activeButton,Stone selectedButton, Stone[][]
 				changePlayer();
 				selected = false;
 			}
-		else if ( (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y && field[activeButton.x-1][activeButton.y].player != null && field[activeButton.x-1][activeButton.y].player != selectedButton.player && !field[activeButton.x-2][activeButton.y].taken)
-				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3 && field[activeButton.x][activeButton.y-1].player != null && field[activeButton.x][activeButton.y-1].player != selectedButton.player && !field[activeButton.x][activeButton.y-2].taken) 
-				|| (activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y && field[activeButton.x+1][activeButton.y].player != null && field[activeButton.x+1][activeButton.y].player != selectedButton.player && !field[activeButton.x+2][activeButton.y].taken)
-				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3 && field[activeButton.x][activeButton.y+1].player != null && field[activeButton.x][activeButton.y+1].player != selectedButton.player && !field[activeButton.x][activeButton.y+2].taken) ){
+		else if ( (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y && field[activeButton.x-1][activeButton.y].player != null && field[activeButton.x-1][activeButton.y].player != selectedButton.player && !field[activeButton.x-2][activeButton.y].taken && !field[activeButton.x-1][activeButton.y].ifoq)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3 && field[activeButton.x][activeButton.y-1].player != null && field[activeButton.x][activeButton.y-1].player != selectedButton.player && !field[activeButton.x][activeButton.y-2].taken && !field[activeButton.x][activeButton.y-1].ifoq) 
+				|| (activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y && field[activeButton.x+1][activeButton.y].player != null && field[activeButton.x+1][activeButton.y].player != selectedButton.player && !field[activeButton.x+2][activeButton.y].taken && !field[activeButton.x+1][activeButton.y].ifoq)
+				|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3 && field[activeButton.x][activeButton.y+1].player != null && field[activeButton.x][activeButton.y+1].player != selectedButton.player && !field[activeButton.x][activeButton.y+2].taken && !field[activeButton.x][activeButton.y+1].ifoq) ){
 				selectedButton.taken = false;
 				selectedButton.isyiss = false;
 				selectedButton.player = null;
@@ -208,7 +212,8 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			}
 			else if (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y
 					  && field[activeButton.x-1][activeButton.y].player == player2
-					  && !field[activeButton.x-2][activeButton.y].taken){
+					  && !field[activeButton.x-2][activeButton.y].taken
+					  && !field[activeButton.x-1][activeButton.y].ifoq){
 				selectedButton.taken = false;
 				selectedButton.player = null;
 				activeButton.player = player1;
@@ -222,7 +227,8 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			}
 			else if(activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3
 						&& field[activeButton.x][activeButton.y-1].player == player2
-						&& !field[activeButton.x][activeButton.y-2].taken){
+						&& !field[activeButton.x][activeButton.y-2].taken
+						&& !field[activeButton.x][activeButton.y-1].ifoq){
 				selectedButton.taken = false;
 				selectedButton.player = null;
 				activeButton.player = player1;
@@ -250,7 +256,8 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 				}
 			else if (activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y
 					  && field[activeButton.x+1][activeButton.y].player == player1
-					  && !field[activeButton.x+2][activeButton.y].taken){
+					  && !field[activeButton.x+2][activeButton.y].taken
+					  && !field[activeButton.x+1][activeButton.y].ifoq){
 			
 				selectedButton.taken = false;
 				selectedButton.player = null;
@@ -265,7 +272,8 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			}
 			else if (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3
 						&& field[activeButton.x][activeButton.y+1].player == player1
-						&& !field[activeButton.x][activeButton.y+2].taken){
+						&& !field[activeButton.x][activeButton.y+2].taken
+						&& !field[activeButton.x][activeButton.y+1].ifoq){
 			
 				selectedButton.taken = false;
 				selectedButton.player = null;
@@ -351,6 +359,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 		}
 		if (player1.isCurrentPlayer) {
 			if ((activeButton.x == 4 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 4)){
+//				GUI.setButtonenable("all");
 				piece_black = black_yiss;
 				activeButton.isyiss = true;
 			}
@@ -359,7 +368,8 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			selectedButton.setIcon(default_bg);
 		}
 		else if (player2.isCurrentPlayer) {
-			if ((activeButton.x == 0 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 2)){
+			if ((activeButton.x == 0 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 0)){
+//				GUI.setButtonenable("all");
 				piece_white = white_yiss;
 				activeButton.isyiss = true;
 			}
@@ -381,11 +391,17 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 		}
 		
 		if (player1.isCurrentPlayer && activeButton.player == player1) {
+			if ((activeButton.x == 4 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 4)){
+				GUI.enableButton("all");
+			}
 			activeButton.setIcon(piece_black);
 			selectedButton = activeButton;
 			selected = true;
 		}
 		else if (player2.isCurrentPlayer && activeButton.player == player2) {
+			if ((activeButton.x == 0 && activeButton.y == 2) || (activeButton.x == 2 && activeButton.y == 0)){
+				GUI.enableButton("all");
+			}
 			activeButton.setIcon(piece_white);
 			selectedButton = activeButton;
 			selected = true;
@@ -448,4 +464,19 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 		}
 	}
 
+	
+	public void setifoq(){
+		selectedButton.ifoq = true;
+		unselect();
+		changePlayer();
+		selected = false;
+		
+	}
+	
+	public void setijbad(){
+		selectedButton.ifoq = false;
+		unselect();
+		changePlayer();
+		selected = false;
+	}
 }
