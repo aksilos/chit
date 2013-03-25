@@ -229,8 +229,10 @@ public class GUI {
 			break;
 		case "ijbad":
 			jbadButton.setEnabled(true);
+			break;
 		case "ifoq":
 			foqButton.setEnabled(true);
+			break;
 		default:
 			break;
 		}
