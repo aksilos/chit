@@ -1,4 +1,4 @@
-package p2p_go_v42;
+package emdee.chit;
 
 import javax.swing.ImageIcon;
 

@@ -1,14 +1,12 @@
-package p2p_go_v42;
+package emdee.chit;
+
+
 /**
- * p2p
- * SS11
- * A2
- * @Team  S4T3
- * @author Mahmoud Dariti, #1991840
- * @author Mohamed Sakhri, #1991287
- * @Aufnahme  von Herr Schaefers
+ * @author Mahmoud Dariti
  * 
  */
+
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -26,8 +24,6 @@ import javax.swing.border.EtchedBorder;
 
 public class GUI {
 	
-	// it is better than anonyme class, because so it will be used
-	// for each stone
 	private class StoneListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			Stone activeButton = (Stone) e.getSource();
@@ -38,24 +34,14 @@ public class GUI {
 	}
 	
 	
-//	Control control = new Control();
 	Ctr ctr = new Ctr();
-	JFrame frame = new JFrame("GO Game");
+	JFrame frame = new JFrame("Chit n-ysan");
 	JPanel playerPanel = new JPanel();
 	JPanel controlPanel = new JPanel();
 	JPanel gameZonePanel = new JPanel();
 	JPanel logoPanel = new JPanel();
 	JPanel topPanel = new JPanel();
 	JPanel buttomPanel = new JPanel();
-	
-	
-//	JLabel scoreLabel = new JLabel(" Score");
-//	JLabel territoryLabel = new JLabel(" Territory");
-//	JLabel prisonersLabel = new JLabel(" Prisoners");
-//	static JLabel territoryBScore = new JLabel("0", JLabel.CENTER);
-//	static JLabel prisonersBScore = new JLabel("0", JLabel.CENTER);
-//	static JLabel territoryWScore = new JLabel("0", JLabel.CENTER);
-//	static JLabel prisonersWScore = new JLabel("0", JLabel.CENTER);
 	
 	
 	JLabel activePlayer = new JLabel("Who is on : ");
@@ -68,9 +54,9 @@ public class GUI {
 	static JButton foqButton = new JButton("ifoq");
 	static JButton jbadButton = new JButton("ijbad");
 	
-	JButton passButton = new JButton(new ImageIcon("src/pass.png"));
-	JButton undoButton = new JButton(new ImageIcon("src/undo.png"));
-	JButton resetButton = new JButton(new ImageIcon("src/reset.png"));
+//	JButton passButton = new JButton(new ImageIcon("src/pass.png"));
+//	JButton undoButton = new JButton(new ImageIcon("src/undo.png"));
+//	JButton resetButton = new JButton(new ImageIcon("src/reset.png"));
 	
 	ImageIcon defautlt_bg = new ImageIcon("src/default_BG_back.png");
 	
@@ -86,24 +72,13 @@ public class GUI {
 //		playerPanel.add(new JLabel("dd"));
 		playerPanel.add(foqButton);
 		playerPanel.add(jbadButton);
-//		playerPanel.add(player1Label);
-//		playerPanel.add(player2Label);
-//		playerPanel.add(territoryLabel);
-//		playerPanel.add(territoryBScore);
-//		playerPanel.add(territoryWScore);
-//		playerPanel.add(prisonersLabel);
-//		playerPanel.add(prisonersWScore);
-//		playerPanel.add(prisonersBScore);
-//		playerPanel.add(scoreLabel);
-//		playerPanel.add(player1Score);
-//		playerPanel.add(player2Score);
 
 		gameZonePanel.setLayout(new GridLayout(5,5));
 		bildZoneGame();		
 		gameZonePanel.setBorder(r);
-		controlPanel.add(resetButton);
-		controlPanel.add(passButton);
-		controlPanel.add(undoButton);
+//		controlPanel.add(resetButton);
+//		controlPanel.add(passButton);
+//		controlPanel.add(undoButton);
 		controlPanel.add(playerPanel);
 		
 		logoPanel.add(logoLabel);
@@ -163,18 +138,21 @@ public class GUI {
 		topPanel.setBorder(r);
 		topPanel.setLayout(new BorderLayout());
 		topPanel.add(logoPanel, BorderLayout.NORTH);
-		topPanel.add(controlPanel, BorderLayout.WEST);
+//		topPanel.add(controlPanel, BorderLayout.WEST);
+		
+//		JMenuItem mb = new JMenuItem();
+//		JMenuItem item = new JMenuItem("new");
+//		mb.add(item);
 
 		// add panels to frame's content-pane
 		frame.getContentPane().add(topPanel, BorderLayout.NORTH);
 		frame.getContentPane().add(playerPanel, BorderLayout.EAST);
 		frame.getContentPane().add(gameZonePanel, BorderLayout.CENTER);
 		frame.getContentPane().add(buttomPanel, BorderLayout.SOUTH);
-		frame.setSize(600,490);
-//		frame.setResizable(false);
+		frame.setSize(600,420);
+//		frame.pack();
 //		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
@@ -198,23 +176,6 @@ public class GUI {
 			} 					
 	}
 	
-	/**
-	 * Update the scores of each player
-	 * @param blackT
-	 * @param prisonersB
-	 * @param whiteT
-	 * @param prisonersW
-	 * @param bScore
-	 * @param wScore
-	 */
-//	public static void updateScore(int blackT, int prisonersB, int whiteT, int prisonersW, int bScore, int wScore) {
-//		territoryBScore.setText(Integer.toString(whiteT));
-//		territoryWScore.setText(Integer.toString(blackT));
-//		prisonersBScore.setText(Integer.toString(prisonersB));
-//		prisonersWScore.setText(Integer.toString(prisonersW));
-//		player1Score.setText(Integer.toString(bScore));
-//		player2Score.setText(Integer.toString(wScore));
-//	}
 	
 	/**
 	 * enable ifoq and ijbad Buttons
