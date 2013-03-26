@@ -30,7 +30,7 @@ public class Stone extends JButton implements ActionListener{
 		boolean isyiss = false;
 		boolean taken;
 		boolean ifoq = false;
-		boolean ijbad = false; 
+		boolean ijbad = true; 
 		
 		boolean isCorner = false;  
 		boolean isEdge = false;
