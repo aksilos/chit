@@ -45,20 +45,20 @@ public class GUI {
 	
 	
 	JLabel activePlayer = new JLabel("Who is on : ");
-	static JLabel activePlayerIcon = new JLabel(new ImageIcon("src/black_logo.png"));
-	JLabel logoLabel = new JLabel(new ImageIcon("src/logo.png"));
-	JLabel player1Label = new JLabel(new ImageIcon("src/black_logo.png"));
+	static JLabel activePlayerIcon = new JLabel(); // new JLabel(new ImageIcon("img/black_logo.png"));
+	JLabel logoLabel = new JLabel(new ImageIcon(getClass().getResource("/logo.png")));
+	JLabel player1Label = new JLabel(new ImageIcon(getClass().getResource("/black_logo.png")));
 	static JLabel player1Score = new JLabel("0", JLabel.CENTER);
-	JLabel player2Label = new JLabel(new ImageIcon("src/white_logo.png"));
+	JLabel player2Label = new JLabel(new ImageIcon(getClass().getResource("/white_logo.png")));
 	static JLabel player2Score = new JLabel("0", JLabel.CENTER);
 	static JButton foqButton = new JButton("ifoq");
 	static JButton jbadButton = new JButton("ijbad");
 	
-//	JButton passButton = new JButton(new ImageIcon("src/pass.png"));
-//	JButton undoButton = new JButton(new ImageIcon("src/undo.png"));
-//	JButton resetButton = new JButton(new ImageIcon("src/reset.png"));
+//	JButton passButton = new JButton(new ImageIcon("img/pass.png"));
+//	JButton undoButton = new JButton(new ImageIcon("img/undo.png"));
+//	JButton resetButton = new JButton(new ImageIcon("img/reset.png"));
 	
-	ImageIcon defautlt_bg = new ImageIcon("src/default_BG_back.png");
+	ImageIcon defautlt_bg = new ImageIcon(getClass().getResource("/default_BG_back.png"));
 	
 	JButton[][] zoneGameButtons = new Stone[5][5];
 	
@@ -152,6 +152,7 @@ public class GUI {
 		frame.setSize(600,420);
 //		frame.pack();
 //		frame.setLocationRelativeTo(null);
+		frame.setLocation(100, 100);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

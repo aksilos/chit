@@ -19,7 +19,7 @@ import javax.swing.JButton;
  * represents one Stone
  * 
  */
-
+ 
 public class Stone extends JButton implements ActionListener{
 
 	private static final long serialVersionUID = 1L;

@@ -11,19 +11,20 @@ public class Ctr {
 	Stone selectedButton;
 	Stone[][] zoneGameButtons; 
 	
-	ImageIcon black = new ImageIcon("src/default_black_back.png");
-//	ImageIcon black =new ImageIcon(new ImageIcon("src/default_black_back.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
-	ImageIcon white = new ImageIcon("src/default_white_back.png");
-//	ImageIcon white =new ImageIcon(new ImageIcon("src/default_white_back.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
-	ImageIcon default_bg = new ImageIcon("src/default_BG_back.png");
-//	ImageIcon default_bg =new ImageIcon(new ImageIcon("src/default_BG_back.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
-	ImageIcon select_black =new ImageIcon(new ImageIcon("src/default_black_select.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
-	ImageIcon select_white =new ImageIcon(new ImageIcon("src/default_white_select.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
+	ImageIcon black = new ImageIcon(getClass().getResource("/default_black_back.png"));
+	ImageIcon white = new ImageIcon(getClass().getResource("/default_white_back.png"));
+//	ImageIcon white =new ImageIcon(new ImageIcon("img/default_white_back.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
+	ImageIcon default_bg = new ImageIcon(getClass().getResource("/default_BG_back.png"));
+//	ImageIcon default_bg =new ImageIcon(new ImageIcon("img/default_BG_back.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
+//	ImageIcon select_black =new ImageIcon(new ImageIcon("img/default_black_select.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
+//	ImageIcon select_white =new ImageIcon(new ImageIcon("img/default_white_select.png").getImage().getScaledInstance(76, 60, java.awt.Image.SCALE_SMOOTH));
+	ImageIcon select_black = new ImageIcon(getClass().getResource("/default_black_select.png"));
+	ImageIcon select_white = new ImageIcon(getClass().getResource("/default_white_select.png"));
 	
-	ImageIcon black_yiss = new ImageIcon("src/default_black_yiss.png");
-	ImageIcon white_yiss = new ImageIcon("src/default_white_yiss.png");
-	ImageIcon black_select_yiss = new ImageIcon("src/default_black_select_yiss.png");
-	ImageIcon white_select_yiss = new ImageIcon("src/default_white_select_yiss.png");
+	ImageIcon black_yiss = new ImageIcon(getClass().getResource("/default_black_yiss.png"));
+	ImageIcon white_yiss = new ImageIcon(getClass().getResource("/default_white_yiss.png"));
+	ImageIcon black_select_yiss = new ImageIcon(getClass().getResource("/default_black_select_yiss.png"));
+	ImageIcon white_select_yiss = new ImageIcon(getClass().getResource("/default_white_select_yiss.png"));
 	
 	private boolean selected = false;
 	
@@ -31,6 +32,7 @@ public class Ctr {
 		player1 = new Player();
 		player2 = new Player();
 		player1.isCurrentPlayer = true; // because it will be turned at the beginning of the game
+		GUI.updateActivePlayer(new ImageIcon (getClass().getResource("/black_logo.png")));
 	}
 	
 	
@@ -418,7 +420,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 	
 	/**
 	 * piece moves and takes an enemy piece
-	 */
+	 */  
 	public void drawTakeMove(Stone selectedButton, Stone takenPiece) {
 		ImageIcon piece_black = black;
 		ImageIcon piece_white = white;
@@ -443,7 +445,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 				piece_white = white_yiss;
 				if (!activeButton.isyiss) activeButton.ijbad = false;
 				activeButton.isyiss = true;
-			}
+			} 
 			System.out.println("this2");
 			activeButton.setIcon(piece_white);
 			takenPiece.setIcon(default_bg);
@@ -528,13 +530,13 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			activeButton.player = player1;
 			player1.isCurrentPlayer = false;
 			player2.isCurrentPlayer = true;
-			GUI.updateActivePlayer(new ImageIcon ("src/white_logo.png"));
+			GUI.updateActivePlayer(new ImageIcon (getClass().getResource("/white_logo.png")));
 		} 
 		else if (player2.isCurrentPlayer) {
 			activeButton.player = player2;
 			player2.isCurrentPlayer = false;
 			player1.isCurrentPlayer = true;
-			GUI.updateActivePlayer(new ImageIcon ("src/black_logo.png"));
+			GUI.updateActivePlayer(new ImageIcon (getClass().getResource("/black_logo.png")));
 		}
 	}
 
