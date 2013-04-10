@@ -251,7 +251,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 				}
 			}
 			
-		else if ( ((activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
+		if ( ((activeButton.x == selectedButton.x+1 && activeButton.y == selectedButton.y )
 			|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+1 )) 
 			&& !(activeButton.y>=3 &&  activeButton.x>=3) ){
 			selectedButton.taken = false;
