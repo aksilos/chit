@@ -67,13 +67,14 @@ public class GUI {
 		r= BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		
 		playerPanel.setLayout(new GridLayout(4, 1));
-		playerPanel.setPreferredSize(new Dimension(200, 200));
+		playerPanel.setPreferredSize(new Dimension(250, 200));
 		playerPanel.setBorder(r);
 //		playerPanel.add(new JLabel("dd"));
 		playerPanel.add(foqButton);
 		playerPanel.add(jbadButton);
 
-		gameZonePanel.setLayout(new GridLayout(5,5));
+//		gameZonePanel.setLayout(new GridLayout(5,5));
+		gameZonePanel.setPreferredSize(new Dimension(320,320));
 		bildZoneGame();		
 		gameZonePanel.setBorder(r);
 //		controlPanel.add(resetButton);
@@ -149,15 +150,17 @@ public class GUI {
 		frame.getContentPane().add(playerPanel, BorderLayout.EAST);
 		frame.getContentPane().add(gameZonePanel, BorderLayout.CENTER);
 		frame.getContentPane().add(buttomPanel, BorderLayout.SOUTH);
-		frame.setSize(600,420);
+		frame.setSize(600,450);
 //		frame.pack();
 //		frame.setLocationRelativeTo(null);
 		frame.setLocation(100, 100);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		ctr.init( (Stone[][]) zoneGameButtons);
 	}
 	
+
 	
 	/**
 	 * creates the 81 stone and puts them in a panel
@@ -167,6 +170,7 @@ public class GUI {
 				for ( int j = 0; j < 5; j++) {
 				for (int i = 0; i<5; i++) {
 					 zoneGameButtons[i][j] = new Stone(i,j,defautlt_bg );
+					 zoneGameButtons[i][j].setPreferredSize(new Dimension(60,60));
 //					 zoneGameButtons[i][j].setBorderPainted(false);
 					 zoneGameButtons[i][j].setOpaque(false); 
 					 zoneGameButtons[i][j].setContentAreaFilled(false);

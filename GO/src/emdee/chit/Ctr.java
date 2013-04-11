@@ -33,6 +33,22 @@ public class Ctr {
 		player2 = new Player();
 		player1.isCurrentPlayer = true; // because it will be turned at the beginning of the game
 		GUI.updateActivePlayer(new ImageIcon (getClass().getResource("/black_logo.png")));
+	
+		
+	}
+	
+	/**
+	 * initialize the field
+	 */
+	public void init(Stone[][] zoneGameButtons){
+		ech(zoneGameButtons[0][0],zoneGameButtons);
+		ech(zoneGameButtons[4][4],zoneGameButtons);
+		ech(zoneGameButtons[0][1],zoneGameButtons);
+		ech(zoneGameButtons[4][3],zoneGameButtons);
+		ech(zoneGameButtons[1][0],zoneGameButtons);
+		ech(zoneGameButtons[3][4],zoneGameButtons);
+		ech(zoneGameButtons[1][1],zoneGameButtons);
+		ech(zoneGameButtons[3][3],zoneGameButtons);
 	}
 	
 	
@@ -101,6 +117,7 @@ public class Ctr {
 					
 					System.out.println("ijbad l timess");
 					selectedButton.ijbad = true;
+					selectedButton.ifoq = false;
 					
 					//field[2][2].isyiss = true;
 					this.activeButton = field[2][2];
@@ -129,7 +146,7 @@ public class Ctr {
 			activeButton.isyiss = true;
 
 			drawNormalMove(selectedButton, false);
-			changePlayer();
+			changePlayer(activeButton);
 			selected = false;
 		}
 		else if ( (activeButton.x == selectedButton.x+2 && activeButton.y == selectedButton.y && field[selectedButton.x+1][selectedButton.y].player != null && field[selectedButton.x+1][selectedButton.y].player != selectedButton.player && !field[selectedButton.x+1][selectedButton.y].ifoq)
@@ -176,7 +193,7 @@ public class Ctr {
 						drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
 					}
 				}
-				changePlayer();
+				changePlayer(activeButton);
 				selected = false;
 			}
 		else if ( (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y && field[activeButton.x-1][activeButton.y].player != null && field[activeButton.x-1][activeButton.y].player != selectedButton.player && !field[activeButton.x-2][activeButton.y].taken && !field[activeButton.x-1][activeButton.y].ifoq)
@@ -222,7 +239,7 @@ public class Ctr {
 						drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
 					}
 				}
-				changePlayer();
+				changePlayer(activeButton);
 				selected = false;
 			}
 	}
@@ -246,7 +263,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 					activeButton.taken = true;
 					
 					drawNormalMove(selectedButton, false);
-					changePlayer();
+					changePlayer(activeButton);
 					selected = false;
 				}
 			}
@@ -260,7 +277,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			activeButton.taken = true;
 			
 			drawNormalMove(selectedButton, false);
-			changePlayer();
+			changePlayer(activeButton);
 			selected = false;
 		}
 		else if (activeButton.x == selectedButton.x+3 && activeButton.y == selectedButton.y
@@ -275,7 +292,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			field[activeButton.x-1][activeButton.y].isyiss = false;
 			field[activeButton.x-1][activeButton.y].player = null;
 			drawTakeMove(selectedButton,field[activeButton.x-1][activeButton.y]);
-			changePlayer();
+			changePlayer(activeButton);
 			selected = false;
 		}
 		else if(activeButton.x == selectedButton.x && activeButton.y == selectedButton.y+3
@@ -290,7 +307,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			field[activeButton.x][activeButton.y-1].isyiss = false;
 			field[activeButton.x][activeButton.y-1].player = null;
 			drawTakeMove(selectedButton,field[activeButton.x][activeButton.y-1]);
-			changePlayer();
+			changePlayer(activeButton);
 			selected = false;
 		}
 			
@@ -306,12 +323,12 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 				activeButton.taken = true;
 				
 				drawNormalMove(selectedButton, false);
-				changePlayer();
+				changePlayer(activeButton);
 				selected = false;
 			}
 		}
 		
-		else if ( ((activeButton.x == selectedButton.x-1 && activeButton.y == selectedButton.y) 
+		if ( ((activeButton.x == selectedButton.x-1 && activeButton.y == selectedButton.y) 
 			|| (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-1)) 
 			&& !(activeButton.y<=1 && activeButton.x<=1) ){
 				selectedButton.taken = false;
@@ -319,7 +336,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 				activeButton.player = player2;
 				activeButton.taken = true;
 				drawNormalMove(selectedButton,false);
-				changePlayer();
+				changePlayer(activeButton);
 				selected = false;
 			}
 		else if (activeButton.x == selectedButton.x-3 && activeButton.y == selectedButton.y
@@ -335,7 +352,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			field[activeButton.x+1][activeButton.y].isyiss = false;
 			field[activeButton.x+1][activeButton.y].player = null;
 			drawTakeMove(selectedButton,field[activeButton.x+1][activeButton.y]);
-			changePlayer();
+			changePlayer(activeButton);
 			selected = false;
 		}
 		else if (activeButton.x == selectedButton.x && activeButton.y == selectedButton.y-3
@@ -351,7 +368,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 			field[activeButton.x][activeButton.y+1].isyiss = false;
 			field[activeButton.x][activeButton.y+1].player = null;
 			drawTakeMove(selectedButton,field[activeButton.x][activeButton.y+1]);
-			changePlayer();
+			changePlayer(activeButton);
 			selected = false;
 		}
 			
@@ -367,19 +384,19 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 	public void ech(Stone activeButton, Stone[][] field){
 		if(player1.isCurrentPlayer){
 			if (activeButton.x <= 1 && activeButton.y <= 1){
-				drawEch();
+				drawEch(activeButton);
 				activeButton.player = player1 ;
 				activeButton.taken = true;
-				changePlayer();
+				changePlayer(activeButton);
 			}
 			else System.err.println("wrong place for 'ech'");
 		}
 		else{
 			if (activeButton.x >= 3 && activeButton.y >= 3){
-				drawEch();
+				drawEch(activeButton);
 				activeButton.player = player2 ;
 				activeButton.taken = true;
-				changePlayer();
+				changePlayer(activeButton);
 			}
 			else System.err.println("wrong place for 'ech'");
 		}
@@ -511,7 +528,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 	/**
 	 * draws the button and refresh the display 
 	 */
-	public void drawEch() {
+	public void drawEch(Stone activeButton) {
 		if (player1.isCurrentPlayer) {
 			activeButton.setIcon(black);
 		}
@@ -524,7 +541,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 	/**
 	 * change player after a successful move
 	 */
-	public void changePlayer() {
+	public void changePlayer(Stone activeButton) {
 		
 		if (player1.isCurrentPlayer) {
 			activeButton.player = player1;
@@ -545,7 +562,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 		selectedButton.ifoq = true;
 		selectedButton.ijbad = false;
 		unselect();
-		changePlayer();
+		changePlayer(activeButton);
 		selected = false;
 		GUI.disableButtons();
 		
@@ -555,7 +572,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 		selectedButton.ifoq = false;
 		selectedButton.ijbad = true;
 		unselect();
-		changePlayer();
+		changePlayer(activeButton);
 		selected = false;
 		GUI.disableButtons();
 	}
