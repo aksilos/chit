@@ -261,6 +261,7 @@ public void selectAndMove(Stone activeButton,Stone selectedButton, Stone[][] fie
 					selectedButton.player = null;
 					activeButton.player = player1;
 					activeButton.taken = true;
+					activeButton.ifoq = true;
 					
 					drawNormalMove(selectedButton, false);
 					changePlayer(activeButton);
